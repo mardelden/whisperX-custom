@@ -55,7 +55,7 @@ class DiarizationPipeline:
         }
 
         if return_embeddings:
-            diarization, embeddings = self.model(
+            output, embeddings = self.model(
                 audio_data,
                 num_speakers=num_speakers,
                 min_speakers=min_speakers,
@@ -63,13 +63,19 @@ class DiarizationPipeline:
                 return_embeddings=True,
             )
         else:
-            diarization = self.model(
+            output = self.model(
                 audio_data,
                 num_speakers=num_speakers,
                 min_speakers=min_speakers,
                 max_speakers=max_speakers,
             )
             embeddings = None
+
+        # pyannote 4.x returns DiarizeOutput; extract the annotation
+        if hasattr(output, 'speaker_diarization'):
+            diarization = output.speaker_diarization
+        else:
+            diarization = output
 
         diarize_df = pd.DataFrame(diarization.itertracks(yield_label=True), columns=['segment', 'label', 'speaker'])
         diarize_df['start'] = diarize_df['segment'].apply(lambda x: x.start)
