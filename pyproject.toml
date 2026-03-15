@@ -39,20 +39,33 @@ include-package-data = true
 where = ["."]
 include = ["whisperx*"]
 
+[project.optional-dependencies]
+gpu = [
+    "torch~=2.8.0",
+    "torchaudio~=2.8.0",
+]
+
 [tool.uv.sources]
 torch = [
   { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
   { index = "pytorch-cpu", marker = "platform_machine != 'x86_64' and sys_platform != 'darwin'" },
+  { index = "pytorch-cu130", extra = "gpu" },
   { index = "pytorch", marker = "platform_machine == 'x86_64' and sys_platform != 'darwin'" },
 ]
 torchaudio = [
   { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
   { index = "pytorch-cpu", marker = "platform_machine != 'x86_64' and sys_platform != 'darwin'" },
+  { index = "pytorch-cu130", extra = "gpu" },
   { index = "pytorch", marker = "platform_machine == 'x86_64' and sys_platform != 'darwin'" },
 ]
 triton = [
   { index = "pytorch", marker = "sys_platform == 'linux'" },
 ]
+
+[[tool.uv.index]]
+name = "pytorch-cu130"
+url = "https://download.pytorch.org/whl/cu130"
+explicit = true
 
 [[tool.uv.index]]
 name = "pytorch"
