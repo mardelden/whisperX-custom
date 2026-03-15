@@ -60,9 +60,8 @@ whisperx/
 ## Critical Rules
 
 - **Pyannote auth**: `DiarizationPipeline` no longer takes a token parameter — relies on `HF_TOKEN` env var. pyannote 4.x uses `token=` internally.
-- **Pyannote 4.x**: Uses `pyannote-audio>=4.0.0` (Python >=3.10 only). Returns `DiarizeOutput` — extract `.speaker_diarization` attribute. Python 3.9 skips pyannote (no diarization).
-- **Python support**: 3.9–3.13 (`>=3.9, <3.14`). Diarization requires 3.10+. Dev default: 3.10 (`.python-version`).
-- **numpy split**: `>=2.0.2,<2.1.0` for Python 3.9; `>=2.2.2,<2.3.0` for Python >=3.10 (required by pyannote-metrics 4.x).
+- **Pyannote 4.x**: Uses `pyannote-audio>=4.0.0`. Returns `DiarizeOutput` — extract `.speaker_diarization` attribute.
+- **Python support**: 3.10–3.13 (`>=3.10, <3.14`). Dev default: 3.10 (`.python-version`).
 - **PyTorch**: Pinned to `~=2.8.0`. macOS uses CPU-only builds.
 - **Audio codec**: `av<16.0.0` constraint.
 - **Version**: 3.7.4 (in `pyproject.toml`).
