@@ -38,28 +38,3 @@ include-package-data = true
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["whisperx*"]
-
-[tool.uv.sources]
-torch = [
-  { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
-  { index = "pytorch-cu130", marker = "sys_platform != 'darwin' and platform_machine == 'x86_64'" },
-  { index = "pytorch-cpu", marker = "sys_platform != 'darwin' and platform_machine != 'x86_64'" },
-]
-torchaudio = [
-  { index = "pytorch-cpu", marker = "sys_platform == 'darwin'" },
-  { index = "pytorch-cu130", marker = "sys_platform != 'darwin' and platform_machine == 'x86_64'" },
-  { index = "pytorch-cpu", marker = "sys_platform != 'darwin' and platform_machine != 'x86_64'" },
-]
-triton = [
-  { index = "pytorch-cu130", marker = "sys_platform == 'linux'" },
-]
-
-[[tool.uv.index]]
-name = "pytorch-cu130"
-url = "https://download.pytorch.org/whl/cu130"
-explicit = true
-
-[[tool.uv.index]]
-name = "pytorch-cpu"
-url = "https://download.pytorch.org/whl/cpu"
-explicit = true
