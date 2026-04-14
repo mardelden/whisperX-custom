@@ -258,6 +258,16 @@ class FasterWhisperPipeline(Pipeline):
         segments: List[SingleSegment] = []
         batch_size = batch_size or self._batch_size
         total_segments = len(vad_segments)
+        # VAD returned no speech segments — skip the transformers pipeline
+        # (which would IndexError on an empty inputs list) and return an
+        # empty transcription with the detected language.
+        if total_segments == 0:
+            logger.warning("No speech detected in audio, returning empty transcription")
+            if self.preset_language is None:
+                self.tokenizer = None
+            if self.suppress_numerals:
+                self.options = replace(self.options, suppress_tokens=previous_suppress_tokens)
+            return {"segments": [], "language": language}
         for idx, out in enumerate(self.__call__(data(audio, vad_segments), batch_size=batch_size, num_workers=num_workers)):
             if print_progress:
                 base_progress = ((idx + 1) / total_segments) * 100
